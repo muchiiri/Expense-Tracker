@@ -13,6 +13,35 @@ const dummyTransactions = [
 
 let transactions = dummyTransactions;
 
+// Add Transaction
+
+function addTransaction(e) {
+  e.preventDefault();
+
+  if (text.value.trim() === "" || amount.value.trim() === "") {
+    alert("Please Enter Description and Amount");
+  } else {
+    const transaction = {
+      id: generateID(),
+      text: text.value,
+      amount: +amount.value,
+    };
+    transactions.push(transaction);
+
+    addTransactionDOM(transaction);
+
+    updateValues();
+
+    text.value = "";
+    amount.value = "";
+  }
+}
+
+//Generate Random ID
+function generateID() {
+  return Math.floor(Math.random() * 100000000);
+}
+
 //Add Transactions to DOM list
 
 function addTransactionDOM(transaction) {
@@ -62,3 +91,5 @@ function init() {
 }
 
 init();
+
+form.addEventListener("submit", addTransaction);
