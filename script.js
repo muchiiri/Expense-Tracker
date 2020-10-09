@@ -1,5 +1,5 @@
 const balance = document.getElementById("balance");
-const money_plus = document.getElementById("moneyp-plus");
+const money_plus = document.getElementById("money-plus");
 const money_minus = document.getElementById("money-minus");
 const list = document.getElementById("list");
 const form = document.getElementById("form");
@@ -32,11 +32,33 @@ ${transaction.text} <span> ${sign}${Math.abs(transaction.amount)} </span>
   list.appendChild(item);
 }
 
+//Update Balance income and expense
+function updatevalues() {
+  const amounts = transactions.map((transaction) => transaction.amount);
+
+  const total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2);
+
+  const income = amounts
+    .filter((item) => item > 0)
+    .reduce((acc, item) => (acc += item), 0)
+    .toFixed(2);
+
+  const expense = (
+    amounts.filter((item) => item < 0).reduce((acc, item) => (acc += item), 0) *
+    -1
+  ).toFixed(2);
+
+  balance.innerText = `$${total}`;
+  money_plus.innerText = `$${income}`;
+  money_minus.innerText = `$${expense}`;
+}
+
 //Init app
 function init() {
   list.innerHTML = "";
 
   transactions.forEach(addTransactionDOM);
+  updatevalues();
 }
 
 init();
